@@ -1,5 +1,5 @@
-# Utilisation d'une image Java officielle OpenJDK 17
-FROM adoptopenjdk/openjdk17:alpine-jre
+# Utilisation d'une image Java officielle OpenJDK 17 Alpine
+FROM openjdk:17-alpine
 
 # Dossier de travail à l'intérieur du conteneur
 WORKDIR /app
