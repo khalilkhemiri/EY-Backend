@@ -23,8 +23,6 @@ services:
       - springapimysql-net
     environment:
       MYSQL_DATABASE: Audit2
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root_password
       MYSQL_ROOT_PASSWORD: root_password  # Ensure this is not empty
 
 networks:
