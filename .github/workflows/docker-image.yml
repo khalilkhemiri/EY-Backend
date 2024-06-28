@@ -20,4 +20,7 @@ jobs:
       run: docker-compose up
     - name: Verify Services 
       run: docker ps
+    - name : db 
+      run : docker-compose logs mysqldb
+
 
