@@ -1,11 +1,11 @@
-FROM maven:3.8.3-openjdk-17 AS build
-WORKDIR /home/app
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn clean package -DskipTests
+# Utilisation d'une image Java officielle OpenJDK 17
+FROM adoptopenjdk/openjdk17:alpine-jre
 
-FROM openjdk:17-jdk-slim
-WORKDIR /home/app
-COPY --from=build /home/app/target/spring_rest_docker.jar /home/app/spring_rest_docker.jar
-EXPOSE 8083
-ENTRYPOINT ["java","-jar","/home/app/spring_rest_docker.jar"]
+# Dossier de travail à l'intérieur du conteneur
+WORKDIR /app
+
+# Copier le jar construit dans le dossier cible
+COPY target/spring_rest_docker.jar /app/spring_rest_docker.jar
+
+# Commande pour exécuter l'application
+CMD ["java", "-jar", "/app/spring_rest_docker.jar"]
