@@ -2,7 +2,7 @@ FROM maven:3.8.5-openjdk-17-slim AS build
 WORKDIR /home/app
 COPY pom.xml .
 COPY src ./src
-RUN mvn clean package
+RUN mvn clean package || (cat /home/app/target/surefire-reports/*.txt; exit 1)
 
 FROM openjdk:17-jdk-slim
 WORKDIR /home/app
