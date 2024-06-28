@@ -10,7 +10,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/Audit2?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=khalil123  # Remplacez par votre mot de passe MySQL root
+      - SPRING_DATASOURCE_PASSWORD=root_password
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_SHOW_SQL=true
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
@@ -28,8 +28,9 @@ services:
       - springapimysql-net
     environment:
       MYSQL_DATABASE: Audit2
-      MYSQL_ROOT_PASSWORD: khalil123  # Remplacez par votre mot de passe MySQL root
-    command: --default-authentication-plugin=mysql_native_password  # Ajoutez cette ligne pour MySQL 8.0
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_ROOT_HOST: '%'
+    command: --default-authentication-plugin=mysql_native_password
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
