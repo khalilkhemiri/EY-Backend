@@ -1,11 +1,11 @@
-FROM maven:3.8.5-openjdk-17-slim AS build
+FROM maven:3.8.3-openjdk-17 AS build
 WORKDIR /home/app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -X
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn clean package -DskipTests
 
 FROM openjdk:17-jdk-slim
 WORKDIR /home/app
-COPY --from=build /home/app/target/spring_rest_docker.jar ./spring_rest_docker.jar
+COPY --from=build /home/app/target/spring_rest_docker.jar /home/app/spring_rest_docker.jar
 EXPOSE 8083
-ENTRYPOINT ["java","-jar","spring_rest_docker.jar"]
+ENTRYPOINT ["java","-jar","/home/app/spring_rest_docker.jar"]
