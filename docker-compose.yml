@@ -1,26 +1,37 @@
-version: '3.8'
-
+version: '3'
 services:
-  api_service:
-    image: my-spring-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - SPRING_DATASOURCE_USERNAME=root
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - backend-network
+
+  backend:
+    image: omarkhedimallah/backend-audit:latest
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/pi?useUnicode=true&useJDBCCompliantTimezoneShift=true&createDatabaseIfNotExist=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - DB_HOST=mysql
+      - DB_NAME=pi
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
     ports:
       - "8083:8083"
+    expose:
+      - 8083
     depends_on:
-      - mysql_service
+      - mysql
+    networks:
+      - backend-network
 
-  mysql_service:
-    image: mysql:8.0.28
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db_audit
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
+networks:
+  backend-network:
+    driver: bridge
 
 volumes:
-  mysql_data:
-    driver: local
+  mysql-data:
